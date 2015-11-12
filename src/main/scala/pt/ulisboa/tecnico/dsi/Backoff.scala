@@ -1,63 +1,47 @@
 package pt.ulisboa.tecnico.dsi
 
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration.FiniteDuration
-import scala.concurrent.duration.{DurationDouble,DurationLong}
+import scala.concurrent.duration.{DurationDouble, DurationLong}
 import com.typesafe.config.{Config, ConfigFactory, ConfigList}
-
-object Configs{
-  val root = ConfigFactory.load("backoff")
-}
-
 
 /**
   * Created by ikea on 11/10/15.
   */
 object Backoff {
-  val root = Configs.root
+  val root = ConfigFactory.load().getConfig("backoff")
+  val goldenRation = (1 - math.sqrt(5)) / 2
+  val iterationExpected = "expected iteration greater or equal than 0"
 
-  def constantFunction(offset: Long = root.getLong("constantFunction.offset"))
-                      (iteration: Int): FiniteDuration = offset.seconds
+  def getDurationConstant(name: String): FiniteDuration = {
+    new FiniteDuration(root.getDuration(name, TimeUnit.MILLISECONDS), TimeUnit.MILLISECONDS)
+  }
 
-  /*
-    f(n) = a*n + b
-   */
-  def linearFunction(linearConstant: Double = root.getDouble("linearFunction.linearConstant"))
-                    (linearOffset: Double = root.getDouble("linearFunction.offsetConstant"))
+  def constantFunction(duration: FiniteDuration = getDurationConstant("constant-duration"))
+                      (iteration: Int): FiniteDuration = {
+    require(iteration >= 0, iterationExpected)
+    duration
+  }
+
+  def linearFunction(duration: FiniteDuration =getDurationConstant("linear-constant"))
                     (iteration: Int): FiniteDuration = {
-    val timeToWait = linearConstant * iteration + linearOffset
-    timeToWait.seconds
+    require(iteration >= 0, iterationExpected)
+    duration * iteration
   }
 
-  def exponentialFunction(linearConstant: Double = root.getDouble("exponentialFunction.linearConstant"))
-                         (exponentialConstant: Double = root.getDouble("exponentialFunction.exponentialConstant"))
+  def exponentialFunction(duration: FiniteDuration = getDurationConstant("exponential-constant"))
                          (iteration: Int): FiniteDuration = {
-    val timeToWait = linearConstant * math.exp(exponentialConstant * iteration)
-    timeToWait.seconds
+    require(iteration >= 0, iterationExpected)
+    val d = duration * math.exp(iteration)
+    d.asInstanceOf[FiniteDuration]
   }
 
-  def goldenNumber(): Double ={
-    1
+  def fibonacciFunction(duration: FiniteDuration = getDurationConstant("fibonacci-duration"))
+                       (iteration: Int): FiniteDuration = {
+    require(iteration >= 0, iterationExpected)
+    val d = duration * math.pow(goldenRation, iteration)
+    d.asInstanceOf[FiniteDuration]
   }
-  def fibonacciFunction(constant: Double = root.getDouble("fibonacci.constant"))
-                       (iteration: Int): FiniteDuration ={
-    /*
-        O(n) implementation http://stackoverflow.com/questions/16388982/algorithm-function-for-fibonacci-series
-     */
-    if(iteration <= 0)
-      return 0.0.seconds
-    if(iteration > 0 && iteration < 3)
-      return 1.0.seconds
 
-    var result = 0.0
-    var preOldResult = 1.0
-    var oldResult = 1.0
-    for(n <- 2 to iteration){
-      result = preOldResult + oldResult
-      preOldResult = oldResult
-      oldResult = result
-    }
-    val fibonacci = constant * result
-    fibonacci.seconds
-  }
 }
