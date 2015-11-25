@@ -14,8 +14,8 @@ class BackoffSpec extends PropSpec with GeneratorDrivenPropertyChecks
     forAll { iteration: Int =>
       val duration = 1.seconds
       whenever(iteration >= 0 && iteration < Int.MaxValue) {
-        Backoff.constantFunction(iteration)(duration) should be
-        Backoff.constantFunction(iteration + 1)(duration)
+        Backoff.constant(iteration)(duration) should be
+        duration
       }
     }
   }
@@ -24,8 +24,8 @@ class BackoffSpec extends PropSpec with GeneratorDrivenPropertyChecks
     forAll { iteration: Int =>
       val duration = 1.seconds
       whenever(iteration >= 0 && iteration < Int.MaxValue) {
-        Backoff.constantFunction(iteration)(duration)+duration should be
-        Backoff.constantFunction(iteration + 1)(duration)
+        Backoff.linear(iteration)(duration)+duration should be
+        Backoff.linear(iteration + 1)(duration)
       }
     }
   }
@@ -34,8 +34,8 @@ class BackoffSpec extends PropSpec with GeneratorDrivenPropertyChecks
     forAll { iteration: Int =>
       val duration = 1.seconds
       whenever(iteration >= 0 && iteration < Int.MaxValue) {
-        Backoff.constantFunction(iteration)(duration)*2 should be
-        Backoff.constantFunction(iteration + 1)(duration)
+        Backoff.exponential(iteration)(duration)*2 should be
+        Backoff.exponential(iteration + 1)(duration)
       }
     }
   }
@@ -44,8 +44,8 @@ class BackoffSpec extends PropSpec with GeneratorDrivenPropertyChecks
     forAll { iteration: Int =>
       val duration = 1.seconds
       whenever(iteration >= 0 && iteration < Int.MaxValue) {
-        Backoff.constantFunction(iteration)(duration) * Backoff.goldenRatio should be
-        Backoff.constantFunction(iteration + 1)(duration)
+        Backoff.fibonacci(iteration)(duration) * Backoff.goldenRatio should be
+        Backoff.fibonacci(iteration + 1)(duration)
       }
     }
   }

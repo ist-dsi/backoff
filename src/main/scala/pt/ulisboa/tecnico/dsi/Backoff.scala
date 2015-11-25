@@ -18,7 +18,21 @@ object Backoff {
   val iterationExpected = "expected iteration greater or equal than 0"
   val durationExpected = "expected a duration greater or equal than 0 seconds"
 
-  def getDurationConstant(name: String): FiniteDuration = {
+  /**
+    * For a given key "name", read the respective duration value from the Config root
+    * and return the equivalent FiniteDuration.
+    * This is an example of a config:
+    * backoff {
+    *     constant-duration = 5 s
+    *     linear-duration = 5 s
+    *     exponential-duration = 5 s
+    *     fibonacci-duration = 5 s
+    * }
+    *
+    * @param name
+    * @return
+    */
+  private def getDurationConstant(name: String): FiniteDuration = {
     new FiniteDuration(root.getDuration(name, TimeUnit.MILLISECONDS), TimeUnit.MILLISECONDS)
   }
 
@@ -39,8 +53,8 @@ object Backoff {
     *                   defaults to a constant defined in the root config
     * @return   returns the @param duration
     */
-  def constantFunction(iteration: Int)
-                      (duration: FiniteDuration = getDurationConstant("constant-duration"))
+  def constant(iteration: Int)
+              (duration: FiniteDuration = getDurationConstant("constant-duration"))
   : FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
@@ -64,8 +78,8 @@ object Backoff {
     *                   optional argument which defaults to a constant defined in the root config
     * @return
     */
-  def linearFunction(iteration: Int)
-                    (duration: FiniteDuration = getDurationConstant("linear-constant"))
+  def linear(iteration: Int)
+            (duration: FiniteDuration = getDurationConstant("linear-constant"))
   : FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
@@ -91,8 +105,8 @@ object Backoff {
     *                   For a duration of 2 seconds, the backoff is doubled
     * @return
     */
-  def exponentialFunction(iteration: Int)
-                         (duration: FiniteDuration = getDurationConstant("exponential-constant"))
+  def exponential(iteration: Int)
+                 (duration: FiniteDuration = getDurationConstant("exponential-constant"))
   : FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
@@ -120,8 +134,8 @@ object Backoff {
     * @param duration   non-negative duration. Scales the fibonacci sequence vertically.
     * @return
     */
-  def fibonacciFunction(iteration: Int)
-                       (duration: FiniteDuration = getDurationConstant("fibonacci-duration"))
+  def fibonacci(iteration: Int)
+               (duration: FiniteDuration = getDurationConstant("fibonacci-duration"))
   : FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
