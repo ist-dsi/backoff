@@ -8,15 +8,13 @@ import scala.concurrent.duration._
 abstract class UnitSpec extends FlatSpec with Matchers
 with OptionValues with Inside with Inspectors
 
-class BackoffSpec extends PropSpec with GeneratorDrivenPropertyChecks
-with ShouldMatchers {
+class BackoffSpec extends PropSpec with GeneratorDrivenPropertyChecks with ShouldMatchers {
 
   property("Using the constant function should always return the same value") {
     forAll { iteration: Int =>
       val duration = 1.seconds
       whenever(iteration >= 0 && iteration < Int.MaxValue) {
-        Backoff.constant(iteration)(duration) should be
-        (duration)
+        Backoff.constant(iteration, duration) shouldBe duration
       }
     }
   }
@@ -25,8 +23,7 @@ with ShouldMatchers {
     forAll { iteration: Int =>
       val duration = 1.seconds
       whenever(iteration >= 0 && iteration < Int.MaxValue) {
-        Backoff.linear(iteration)(duration) + duration should be
-        Backoff.linear(iteration + 1)(duration)
+        Backoff.linear(iteration, duration) + duration shouldBe Backoff.linear(iteration + 1, duration)
       }
     }
   }
@@ -35,9 +32,9 @@ with ShouldMatchers {
     forAll { iteration: Int =>
       val duration = 1.seconds
       val maxIteration = math.floor(math.log(Long.MaxValue / duration.toNanos) / math.log(2)).toInt
+
       whenever(iteration >= 0 && iteration < maxIteration) {
-        Backoff.exponential(iteration)(duration) * 2 should be
-        Backoff.exponential(iteration + 1)(duration)
+        Backoff.exponential(iteration, duration) * 2 shouldBe Backoff.exponential(iteration + 1, duration)
       }
     }
   }
@@ -46,11 +43,8 @@ with ShouldMatchers {
     forAll { iteration: Int =>
       val duration = 1.seconds
       whenever(iteration >= 0 && iteration < Int.MaxValue) {
-        Backoff.fibonacci(iteration)(duration) * Backoff.goldenRatio should be
-        Backoff.fibonacci(iteration + 1)(duration)
+        Backoff.fibonacci(iteration, duration) * Backoff.goldenRatio shouldBe Backoff.fibonacci(iteration + 1, duration)
       }
     }
   }
-
-
 }

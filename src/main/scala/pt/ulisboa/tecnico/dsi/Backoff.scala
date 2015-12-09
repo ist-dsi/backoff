@@ -35,8 +35,7 @@ object Backoff {
     *                   defaults to a constant defined in the root config
     * @return   returns the @param duration
     */
-  def constant(iteration: Int)
-              (duration: FiniteDuration = getDurationConstant("constant-duration")): FiniteDuration = {
+  def constant(iteration: Int, duration: FiniteDuration = getDurationConstant("constant-duration")): FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
     capBackoff(duration)
@@ -59,8 +58,7 @@ object Backoff {
     *                   optional argument which defaults to a constant defined in the root config
     * @return @param duration * @param iteration
     */
-  def linear(iteration: Int)
-            (duration: FiniteDuration = getDurationConstant("linear-constant")): FiniteDuration = {
+  def linear(iteration: Int, duration: FiniteDuration = getDurationConstant("linear-constant")): FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
     capBackoff(duration * iteration)
@@ -85,25 +83,10 @@ object Backoff {
     *                   For a duration of 2 seconds, the backoff is doubled
     * @return @param duration * 2 power (@param iteration) duration
     */
-  def exponential(iteration: Int)
-                 (duration: FiniteDuration = getDurationConstant("exponential-constant")): FiniteDuration = {
+  def exponential(iteration: Int, duration: FiniteDuration = getDurationConstant("exponential-constant")): FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
     capBackoff(duration * math.pow(2, iteration).toLong)
-  }
-
-  /**
-    * Computes a Backoff duration.
-    *
-    * @param duration duration to be computed
-    * @return duration or MaxValue if there is an overflow
-    */
-  def capBackoff(duration: => FiniteDuration): FiniteDuration = {
-    try {
-      duration
-    } catch {
-      case _: IllegalArgumentException => Duration(Long.MaxValue, TimeUnit.NANOSECONDS)
-    }
   }
 
   /**
@@ -126,8 +109,7 @@ object Backoff {
     * @param duration   non-negative duration. Scales the fibonacci sequence vertically.
     * @return @param duration*(fibonacci(@param iteration) + fibonacci(@param iteration - 1))
     */
-  def fibonacci(iteration: Int)
-               (duration: FiniteDuration = getDurationConstant("fibonacci-duration")): FiniteDuration = {
+  def fibonacci(iteration: Int,duration: FiniteDuration = getDurationConstant("fibonacci-duration")): FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
     //call as instance because Duration.* returns Duration
@@ -152,4 +134,17 @@ object Backoff {
     new FiniteDuration(root.getDuration(name, TimeUnit.MILLISECONDS), TimeUnit.MILLISECONDS)
   }
 
+  /**
+    * Computes a Backoff duration.
+    *
+    * @param duration duration to be computed
+    * @return duration or MaxValue if there is an overflow
+    */
+  private def capBackoff(duration: => FiniteDuration): FiniteDuration = {
+    try {
+      duration
+    } catch {
+      case _: IllegalArgumentException => Duration(Long.MaxValue, TimeUnit.NANOSECONDS)
+    }
+  }
 }
