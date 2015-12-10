@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit
 import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.duration.{Duration, DurationDouble, FiniteDuration}
+import scala.util.Try
 
 /**
   * Backoff is used to calculate the next duration to wait before
@@ -141,10 +142,6 @@ object Backoff {
     * @return duration or MaxValue if there is an overflow
     */
   private def cap(duration: => FiniteDuration): FiniteDuration = {
-    try {
-      duration
-    } catch {
-      case _: IllegalArgumentException => Duration(Long.MaxValue, TimeUnit.NANOSECONDS)
-    }
+    Try(duration) getOrElse Duration(Long.MaxValue, TimeUnit.NANOSECONDS)
   }
 }
