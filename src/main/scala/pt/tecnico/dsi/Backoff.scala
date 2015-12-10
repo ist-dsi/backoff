@@ -38,7 +38,7 @@ object Backoff {
   def constant(iteration: Int, duration: FiniteDuration = getDurationConstant("constant-duration")): FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
-    capBackoff(duration)
+    cap(duration)
   }
 
   /**
@@ -61,7 +61,7 @@ object Backoff {
   def linear(iteration: Int, duration: FiniteDuration = getDurationConstant("linear-constant")): FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
-    capBackoff(duration * iteration)
+    cap(duration * iteration)
   }
 
   /**
@@ -86,7 +86,7 @@ object Backoff {
   def exponential(iteration: Int, duration: FiniteDuration = getDurationConstant("exponential-constant")): FiniteDuration = {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
-    capBackoff(duration * math.pow(2, iteration).toLong)
+    cap(duration * math.pow(2, iteration).toLong)
   }
 
   /**
@@ -113,7 +113,7 @@ object Backoff {
     require(iteration >= 0, iterationExpected)
     require(duration >= 0.0.seconds, durationExpected)
     //call as instance because Duration.* returns Duration
-    capBackoff((duration * math.pow(goldenRatio, iteration)).asInstanceOf[FiniteDuration])
+    cap((duration * math.pow(goldenRatio, iteration)).asInstanceOf[FiniteDuration])
   }
 
   /**
@@ -140,7 +140,7 @@ object Backoff {
     * @param duration duration to be computed
     * @return duration or MaxValue if there is an overflow
     */
-  private def capBackoff(duration: => FiniteDuration): FiniteDuration = {
+  private def cap(duration: => FiniteDuration): FiniteDuration = {
     try {
       duration
     } catch {
