@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.dsi
+package pt.tecnico.dsi
 
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks

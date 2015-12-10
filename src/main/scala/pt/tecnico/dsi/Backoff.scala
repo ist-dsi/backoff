@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.dsi
+package pt.tecnico.dsi
 
 import java.util.concurrent.TimeUnit
 
