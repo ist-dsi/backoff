@@ -23,7 +23,6 @@ Or in [maven][3], you can add `backoff` to your `pom.xml`:
     <artifactId>backoff_2.11</artifactId>
     <version>1.0.0</version>
 </dependency>
-...
 ```
 
 Build instructions
@@ -33,11 +32,8 @@ Build instructions
 
 ```bash
 $ git clone https://github.com/ist-dsi/backoff.git
-
 $ cd backoff
-
 $ sbt update
-
 $ sbt compile
 ```
 
