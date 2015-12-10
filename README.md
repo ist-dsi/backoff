@@ -11,10 +11,13 @@ Install
 
 To use `backoff` in an [SBT][1] project, add the following dependency to your `build.sbt`:
 
-`libraryDependencies += "pt.tecnico.dsi" %% "backoff" % "1.0.0"`
+```scala
+libraryDependencies += "pt.tecnico.dsi" %% "backoff" % "1.0.0"
+```
 
 Or in [maven][3], you can add `backoff` to your `pom.xml`:
-```
+
+```xml
 <dependency>
     <groupId>pt.tecnico.dsi</groupId>
     <artifactId>backoff_2.11</artifactId>
@@ -28,7 +31,7 @@ Build instructions
 
 `backoff` uses [SBT][1] for building and requires Java 8.
 
-```
+```bash
 $ git clone https://github.com/ist-dsi/backoff.git
 
 $ cd backoff
@@ -40,7 +43,9 @@ $ sbt compile
 
 Then you can run the tests simply by:
 
-`sbt test`
+```scala
+sbt test
+```
 
 License
 -------
