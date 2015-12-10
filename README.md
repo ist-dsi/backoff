@@ -12,7 +12,7 @@ Install
 To use `backoff` in an [SBT][1] project, add the following dependency to your `build.sbt`:
 
 ```scala
-libraryDependencies += "pt.tecnico.dsi" %% "backoff" % "1.0.0"
+libraryDependencies += "pt.tecnico.dsi" %% "backoff" % "1.0.1"
 ```
 
 Or in [maven][3], you can add `backoff` to your `pom.xml`:
@@ -21,7 +21,7 @@ Or in [maven][3], you can add `backoff` to your `pom.xml`:
 <dependency>
     <groupId>pt.tecnico.dsi</groupId>
     <artifactId>backoff_2.11</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
