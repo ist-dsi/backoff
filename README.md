@@ -6,7 +6,7 @@ Usage
 
 TODO
 
-Please refer to [`backoff` documentation][4] for more details.
+Please refer to [documentation][4] for more details.
 
 Install
 -------
@@ -53,4 +53,4 @@ Licensing conditions (MIT) can be found in [LICENSE][2].
 [1]: http://www.scala-sbt.org
 [2]: https://raw.githubusercontent.com/ist-dsi/backoff/master/LICENSE
 [3]: https://maven.apache.org
-[4]: http://ist-dsi.github.io/backoff/
+[4]: http://ist-dsi.github.io/backoff/latest/api/#pt.tecnico.dsi.Backoff$
