@@ -14,10 +14,10 @@ import scala.util.Try
   * scaling factor.
   */
 object Backoff {
-  val root = ConfigFactory.load().getConfig("backoff")
+  private val root = ConfigFactory.load().getConfig("backoff")
   val goldenRatio = (1 - math.sqrt(5)) / 2
-  val iterationExpected = "expected iteration greater or equal than 0"
-  val durationExpected = "expected a duration greater or equal than 0 seconds"
+  private val iterationExpected = "expected iteration greater or equal than 0"
+  private val durationExpected = "expected a duration greater or equal than 0 seconds"
 
   /**
     * Return a backoff duration that is constant for all iterations.

@@ -6,13 +6,15 @@ Usage
 
 TODO
 
+Please refer to [`backoff` documentation][4] for more details.
+
 Install
 -------
 
 To use `backoff` in an [SBT][1] project, add the following dependency to your `build.sbt`:
 
 ```scala
-libraryDependencies += "pt.tecnico.dsi" %% "backoff" % "1.0.1"
+libraryDependencies += "pt.tecnico.dsi" %% "backoff" % "1.0.3"
 ```
 
 Or in [maven][3], you can add `backoff` to your `pom.xml`:
@@ -21,7 +23,7 @@ Or in [maven][3], you can add `backoff` to your `pom.xml`:
 <dependency>
     <groupId>pt.tecnico.dsi</groupId>
     <artifactId>backoff_2.11</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -51,3 +53,4 @@ Licensing conditions (MIT) can be found in [LICENSE][2].
 [1]: http://www.scala-sbt.org
 [2]: https://raw.githubusercontent.com/ist-dsi/backoff/master/LICENSE
 [3]: https://maven.apache.org
+[4]: http://ist-dsi.github.io/backoff/

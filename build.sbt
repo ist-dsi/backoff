@@ -1,6 +1,6 @@
 organization := "pt.tecnico.dsi"
 name := "Backoff"
-version := "1.0.1"
+version := "1.0.3"
 
 scalaVersion := "2.11.7"
 initialize := {
@@ -30,6 +30,11 @@ scalacOptions ++= Seq(
   "-Yno-adapted-args",              //Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
   "-Ywarn-dead-code"                //Warn when dead code is identified.
 )
+
+site.settings
+site.includeScaladoc()
+ghpages.settings
+git.remoteRepo := s"git@github.com:ist-dsi/${name.value}.git"
 
 licenses += "MIT" -> url("http://opensource.org/licenses/MIT")
 homepage := Some(url(s"https://github.com/ist-dsi/${name.value}"))
