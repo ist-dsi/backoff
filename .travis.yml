@@ -1,21 +1,17 @@
-# Use container-based infrastructure
 sudo: false
-
 language: scala
-
 cache:
   directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt/boot/
-
+  - "$HOME/.ivy2/cache"
+  - "$HOME/.sbt/boot/"
 scala:
-  - 2.11.7
+- 2.11.7
 jdk:
-  - oraclejdk8
-  
+- oraclejdk8
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION test
-  
-  # Tricks to avoid unnecessary cache updates
-  - find $HOME/.sbt -name "*.lock" | xargs rm
-  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+- sbt ++$TRAVIS_SCALA_VERSION test
+- find $HOME/.sbt -name "*.lock" | xargs rm
+- find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+notifications:
+  slack:
+    secure: xh9co1jm7oZn0iSfhvl8NzyEpP/X2HFCteqbn8R+s8QyDQxXGFVOGzBFH9SIGR/j8/04s0/bc0ihPdQoSy6hbzyywcCYRD+y9wdJlYgc84Oc9Zzf1yTpm5KqxPfzbM2zeQ66dTuQv8PHdOCslhR6tlqZd1l8iK6Emv/QQs9Ray5ttE5sCdtiFlA+tePW6dO0L40o+M5jk+nZDNdAKrnAf/0q/1SnyKvf6WpZwXuzRPb267T3nQ9/Y4WL4vp8A92JjqhRxEKJ8kdOLMaqnMpWlWdoX6tDW/G0vR2037SiKx/99oiYPpmGViU/W0Z1IY7F4NN6v+hCKB8s96wY7XdY60SeJztHS0HWU6kIDmNma7OBbbKzriqZPTIK3AzKdaFakG0aVKiXunf6ookfKO5Rtp+whx8UDlZrJK4qqNWoYUKu94WvJwazxI5J6KCK/61Jidty8wFsQl5KGm7JKttSAb6sJqDT+w80+BUHurJz+k9WSlebnLT3aDB9ARPq0aU4bHfL0UPspHAZFm27gbIL//1cmv86igZvH/0dbB7EhC+rxk8ZAZ5YGPJrf82r7idrtt9MTNABbTOPf/BZQHts/6Uj5N5zUZHrYfhT/6Cko+XP5f9Qc3QuE9yEdquhnMpZeNog0ZzSkAmT0vgwidFTtBj63EPHmfzIKv3hXZkh03o=
