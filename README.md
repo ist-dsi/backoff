@@ -1,7 +1,7 @@
 # Scala Backoff
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/pt.tecnico.dsi/backoff_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/pt.tecnico.dsi/backoff_2.11)
 [![Build Status](https://travis-ci.org/ist-dsi/backoff.svg?branch=master)](https://travis-ci.org/ist-dsi/backoff)
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/1be4eec39d8141b0a4238b2c5a672803)](https://www.codacy.com/app/IST-DSI/backoff)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/c592901ed72a4da484ea64cae0879213)](https://www.codacy.com/app/IST-DSI/backoff)
 [![license](http://img.shields.io/:license-MIT-blue.svg)](LICENSE)
 
 Constant, linear, exponential and fibonacci backoff functions for Scala 2.11
